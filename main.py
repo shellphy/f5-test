@@ -11,17 +11,9 @@ def get_cached_vocos_path(cache_dir="./cache/"):
     return None
 
 def main():
-    os.environ['HF_HOME'] = "./cache/"
     from f5_tts.api import F5TTS
     
-    # 自动检测并使用本地缓存的Vocos模型，避免误导性的下载消息
-    vocoder_local_path = get_cached_vocos_path()
-    if vocoder_local_path:
-        print(f"使用缓存的Vocos模型: {vocoder_local_path}")
-        f5tts = F5TTS(vocoder_local_path=vocoder_local_path)
-    else:
-        print("未找到缓存的Vocos模型，将使用默认下载方式")
-        f5tts = F5TTS()
+    f5tts = F5TTS(hf_cache_dir="./cache/")
     
     f5tts.infer(
         ref_file="./basic_ref_zh.wav",
